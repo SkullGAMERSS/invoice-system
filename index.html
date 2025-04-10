@@ -253,10 +253,6 @@
                             <input type="date" id="invoiceDate" name="invoiceDate" required>
                         </div>
                         <div class="form-group">
-                            <label for="dueDate">Due Date</label>
-                            <input type="date" id="dueDate" name="dueDate" required>
-                        </div>
-                        <div class="form-group">
                             <label for="serialNumber">Serial Number</label>
                             <input type="text" id="serialNumber" name="serialNumber" required>
                         </div>
@@ -409,9 +405,7 @@
         
         // Set default dates
         document.getElementById('invoiceDate').valueAsDate = new Date();
-        const dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 30);
-        document.getElementById('dueDate').valueAsDate = dueDate;
+        
 
         // Initialize the page
         function init() {
@@ -477,7 +471,6 @@
             const invoice = {
                 id: Date.now(),
                 invoiceDate: formData.get('invoiceDate'),
-                dueDate: formData.get('dueDate'),
                 serialNumber: formData.get('serialNumber'),
                 invoiceNumber: formData.get('invoiceNumber'),
                 customerName: formData.get('customerName'),
@@ -498,10 +491,7 @@
             
             // Reset dates
             document.getElementById('invoiceDate').valueAsDate = new Date();
-            const dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + 30);
-            document.getElementById('dueDate').valueAsDate = dueDate;
-        });
+            
         
         // Update invoice table
         function updateInvoiceTable() {
@@ -558,7 +548,6 @@
         function exportToExcel(data, filename) {
             const excelData = data.map(invoice => ({
                 'Invoice Date': invoice.invoiceDate,
-                'Due Date': invoice.dueDate,
                 'Serial Number': invoice.serialNumber,
                 'Invoice Number': invoice.invoiceNumber,
                 'Customer Name': invoice.customerName,
@@ -631,7 +620,6 @@
                         data = data.map(item => ({
                             id: Date.now() + Math.floor(Math.random() * 1000),
                             invoiceDate: item['Invoice Date'] || new Date().toISOString().split('T')[0],
-                            dueDate: item['Due Date'] || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                             serialNumber: item['Serial Number'] || '',
                             invoiceNumber: item['Invoice Number'] || '',
                             customerName: item['Customer Name'] || '',
