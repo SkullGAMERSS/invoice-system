@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Management System</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .form-container, .table-container {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        button.export {
+            background: #27ae60;
+        }
+        button.export:hover {
+            background: #219653;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .readonly {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Invoice Management System</h1>
+    
+    <div class="form-container">
+        <h2>Add New Invoice</h2>
+        <form id="invoiceForm">
+            <div class="form-group">
+                <label for="serialNumber">Serial Number:</label>
+                <input type="text" id="serialNumber" name="serialNumber" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="invoiceNumber">Invoice Number:</label>
+                <input type="text" id="invoiceNumber" name="invoiceNumber" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="customerName">Customer Name:</label>
+                <input type="text" id="customerName" name="customerName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="customerGSTIN">Customer GSTIN:</label>
+                <select id="customerGSTIN" name="customerGSTIN" required>
+                    <option value="">Select GSTIN</option>
+                    <!-- Options will be added by JavaScript -->
+                </select>
+                <button type="button" id="addGSTIN" style="margin-top: 5px; padding: 5px 10px; font-size: 14px;">+ Add New GSTIN</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="actualValue">Actual Value:</label>
+                <input type="number" id="actualValue" name="actualValue" step="0.01" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="cgstValue">CGST 9% Value:</label>
+                <input type="number" id="cgstValue" name="cgstValue" class="readonly" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="sgstValue">SGST 9% Value:</label>
+                <input type="number" id="sgstValue" name="sgstValue" class="readonly" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="totalGSTValue">Total GST Value:</label>
+                <input type="number" id="totalGSTValue" name="totalGSTValue" class="readonly" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="totalInvoiceValue">Total Invoice Value:</label>
+                <input type="number" id="totalInvoiceValue" name="totalInvoiceValue" class="readonly" readonly>
+            </div>
+            
+            <button type="submit">Save Invoice</button>
+            <button type="button" id="exportBtn" class="export">Export to Excel</button>
+        </form>
+    </div>
+    
+    <div class="table-container">
+        <h2>Saved Invoices</h2>
+        <table id="invoiceTable">
+            <thead>
+                <tr>
+                    <th>Serial No.</th>
+                    <th>Invoice No.</th>
+                    <th>Customer Name</th>
+                    <th>GSTIN</th>
+                    <th>Total Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+    <script>
+        // Initialize GSTIN options from localStorage or empty array
+        let gstinOptions = JSON.parse(localStorage.getItem('gstinOptions')) || [];
+        let invoices = JSON.parse(localStorage.getItem('invoices')) || [];
+        
+        // DOM elements
+        const invoiceForm = document.getElementById('invoiceForm');
+        const customerGSTIN = document.getElementById('customerGSTIN');
+        const addGSTIN = document.getElementById('addGSTIN');
+        const actualValue = document.getElementById('actualValue');
+        const cgstValue = document.getElementById('cgstValue');
+        const sgstValue = document.getElementById('sgstValue');
+        const totalGSTValue = document.getElementById('totalGSTValue');
+        const totalInvoiceValue = document.getElementById('totalInvoiceValue');
+        const invoiceTable = document.getElementById('invoiceTable').getElementsByTagName('tbody')[0];
+        const exportBtn = document.getElementById('exportBtn');
+        
+        // Initialize GSTIN dropdown
+        function updateGSTINDropdown() {
+            customerGSTIN.innerHTML = '<option value="">Select GSTIN</option>';
+            gstinOptions.forEach(gstin => {
+                const option = document.createElement('option');
+                option.value = gstin;
+                option.textContent = gstin;
+                customerGSTIN.appendChild(option);
+            });
+        }
+        
+        // Calculate GST values when actual value changes
+        actualValue.addEventListener('input', function() {
+            const value = parseFloat(this.value) || 0;
+            const cgst = value * 0.09;
+            const sgst = value * 0.09;
+            const totalGST = cgst + sgst;
+            const total = value + totalGST;
+            
+            cgstValue.value = cgst.toFixed(2);
+            sgstValue.value = sgst.toFixed(2);
+            totalGSTValue.value = totalGST.toFixed(2);
+            totalInvoiceValue.value = total.toFixed(2);
+        });
+        
+        // Add new GSTIN
+        addGSTIN.addEventListener('click', function() {
+            const newGSTIN = prompt('Enter new GSTIN number:');
+            if (newGSTIN) {
+                if (!gstinOptions.includes(newGSTIN)) {
+                    gstinOptions.push(newGSTIN);
+                    localStorage.setItem('gstinOptions', JSON.stringify(gstinOptions));
+                    updateGSTINDropdown();
+                    customerGSTIN.value = newGSTIN;
+                } else {
+                    alert('This GSTIN already exists!');
+                }
+            }
+        });
+        
+        // Save invoice
+        invoiceForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const invoice = {
+                id: Date.now(),
+                serialNumber: formData.get('serialNumber'),
+                invoiceNumber: formData.get('invoiceNumber'),
+                customerName: formData.get('customerName'),
+                customerGSTIN: formData.get('customerGSTIN'),
+                actualValue: formData.get('actualValue'),
+                cgstValue: formData.get('cgstValue'),
+                sgstValue: formData.get('sgstValue'),
+                totalGSTValue: formData.get('totalGSTValue'),
+                totalInvoiceValue: formData.get('totalInvoiceValue')
+            };
+            
+            invoices.push(invoice);
+            localStorage.setItem('invoices', JSON.stringify(invoices));
+            updateInvoiceTable();
+            this.reset();
+        });
+        
+        // Update invoice table
+        function updateInvoiceTable() {
+            invoiceTable.innerHTML = '';
+            invoices.forEach(invoice => {
+                const row = invoiceTable.insertRow();
+                row.innerHTML = `
+                    <td>${invoice.serialNumber}</td>
+                    <td>${invoice.invoiceNumber}</td>
+                    <td>${invoice.customerName}</td>
+                    <td>${invoice.customerGSTIN}</td>
+                    <td>${invoice.totalInvoiceValue}</td>
+                `;
+            });
+        }
+        
+        // Export to Excel
+        exportBtn.addEventListener('click', function() {
+            if (invoices.length === 0) {
+                alert('No invoices to export!');
+                return;
+            }
+            
+            const excelData = invoices.map(invoice => ({
+                'Serial Number': invoice.serialNumber,
+                'Invoice Number': invoice.invoiceNumber,
+                'Customer Name': invoice.customerName,
+                'Customer GSTIN': invoice.customerGSTIN,
+                'Actual Value': invoice.actualValue,
+                'CGST 9% Value': invoice.cgstValue,
+                'SGST 9% Value': invoice.sgstValue,
+                'Total GST Value': invoice.totalGSTValue,
+                'Total Invoice Value': invoice.totalInvoiceValue
+            }));
+            
+            const worksheet = XLSX.utils.json_to_sheet(excelData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Invoices');
+            XLSX.writeFile(workbook, 'Invoices.xlsx');
+        });
+        
+        // Initialize the page
+        updateGSTINDropdown();
+        updateInvoiceTable();
+    </script>
+</body>
+</html>
