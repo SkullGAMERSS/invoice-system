@@ -71,26 +71,45 @@ h1 {
     margin-bottom: 1rem;
 }
 
-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--secondary);
+/* Floating Label Input Groups */
+.inputGroup {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 1em 0;
+    position: relative;
 }
 
-input, select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    transition: border 0.3s ease;
-}
-
-input:focus, select:focus {
+.inputGroup input, 
+.inputGroup select {
+    font-size: 100%;
+    padding: 0.8em;
     outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    border: 2px solid rgb(200, 200, 200);
+    background-color: transparent;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.inputGroup label {
+    font-size: 100%;
+    position: absolute;
+    left: 0;
+    padding: 0.8em;
+    margin-left: 0.5em;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    color: rgb(100, 100, 100);
+}
+
+.inputGroup :is(input:focus, input:valid, select:focus, select:valid)~label {
+    transform: translateY(-50%) scale(.9);
+    margin: 0em;
+    margin-left: 1.3em;
+    padding: 0.4em;
+    background-color: #e8e8e8;
+}
+
+.inputGroup :is(input:focus, input:valid, select:focus, select:valid) {
+    border-color: rgb(150, 150, 200);
 }
 
 .readonly {
@@ -191,13 +210,20 @@ tr:hover {
     cursor: pointer;
     font-weight: 600;
     color: var(--dark);
-    border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    transition: all 1s ease;
+
+}
+
+.tab:hover {
+    background-color: #cbcbcb;
 }
 
 .tab.active {
     color: var(--primary);
     border-bottom: 3px solid var(--primary);
+    border-top: 3px solid;
+    transition: all 0.5s ease;
 }
 
 .tab-content {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Management System</title>
+    <title>Sriram Services</title>
     <link rel="icon" type="image/png" href="images/logo.jpg">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
@@ -12,7 +12,6 @@
     <div class="container">
         <header>
             <h1>Invoice Management System</h1>
-            <p>Track and manage your invoices with ease</p>
         </header>
 
         <div class="tabs">
@@ -25,30 +24,32 @@
                 <h2 class="card-title">New Invoice</h2>
                 <form id="invoiceForm">
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label for="invoiceDate">Invoice Date</label>
+                        <div class="inputGroup">
                             <input type="date" id="invoiceDate" required>
+                            <label for="invoiceDate">Invoice Date</label>
                         </div>
-                        <div class="form-group">
-                            <label for="serialNumber">Serial Number</label>
+                        <div class="inputGroup">
                             <input type="text" id="serialNumber" required>
+                            <label for="serialNumber">Serial Number</label>
                         </div>
-                        <div class="form-group">
-                            <label for="invoiceNumber">Invoice Number</label>
+                        <div class="inputGroup">
                             <input type="text" id="invoiceNumber" required>
+                            <label for="invoiceNumber">Invoice Number</label>
                         </div>
                     </div>
 
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label for="customerName">Customer Name</label>
+                        <div class="inputGroup">
                             <input type="text" id="customerName" required>
+                            <label for="customerName">Customer Name</label>
                         </div>
-                        <div class="form-group">
-                            <label for="customerGSTIN">Customer GSTIN</label>
+                        <div class="inputGroup">
                             <select id="customerGSTIN" required>
-                                <option value="">Select GSTIN</option>
+                                <option value=""></option>
+                                <option value="GSTIN1">GSTIN1</option>
+                                <option value="GSTIN2">GSTIN2</option>
                             </select>
+                            <label for="customerGSTIN">Customer GSTIN</label>
                         </div>
                         <div class="form-group">
                             <button type="button" id="addGSTIN" class="btn btn-primary">+ Add New GSTIN</button>
@@ -56,25 +57,25 @@
                     </div>
 
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label for="actualValue">Actual Value (₹)</label>
+                        <div class="inputGroup">
                             <input type="number" id="actualValue" step="0.01" required>
+                            <label for="actualValue">Actual Value (₹)</label>
                         </div>
-                        <div class="form-group">
-                            <label for="cgstValue">CGST 9% (₹)</label>
+                        <div class="inputGroup">
                             <input type="number" id="cgstValue" class="readonly" readonly>
+                            <label for="cgstValue">CGST 9% (₹)</label>
                         </div>
-                        <div class="form-group">
-                            <label for="sgstValue">SGST 9% (₹)</label>
+                        <div class="inputGroup">
                             <input type="number" id="sgstValue" class="readonly" readonly>
+                            <label for="sgstValue">SGST 9% (₹)</label>
                         </div>
-                        <div class="form-group">
-                            <label for="totalGSTValue">Total GST (₹)</label>
+                        <div class="inputGroup">
                             <input type="number" id="totalGSTValue" class="readonly" readonly>
+                            <label for="totalGSTValue">Total GST (₹)</label>
                         </div>
-                        <div class="form-group">
-                            <label for="totalInvoiceValue">Total Invoice (₹)</label>
+                        <div class="inputGroup">
                             <input type="number" id="totalInvoiceValue" class="readonly" readonly>
+                            <label for="totalInvoiceValue">Total Invoice (₹)</label>
                         </div>
                     </div>
 
