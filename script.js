@@ -113,13 +113,14 @@ invoiceForm.addEventListener('submit', function(e) {
     document.getElementById('invoiceDate').valueAsDate = new Date();
 });
 
-// Update invoice table with new column order
+// Update invoice table
 function updateInvoiceTable() {
     invoiceTable.innerHTML = '';
     const recentInvoices = invoices.slice(-10).reverse();
     
     recentInvoices.forEach(invoice => {
         const row = invoiceTable.insertRow();
+        
         const date = new Date(invoice.invoiceDate);
         const formattedDate = date.toLocaleDateString('en-IN');
         
@@ -138,7 +139,36 @@ function updateInvoiceTable() {
     });
 }
 
-// Update Excel export with new column order
+// Update data status
+function updateDataStatus() {
+    activeCount.textContent = invoices.length;
+    cutoffCount.textContent = cutoffInvoices.length;
+    totalCount.textContent = invoices.length + cutoffInvoices.length;
+}
+
+// Export to Excel
+exportBtn.addEventListener('click', exportData);
+exportAllBtn.addEventListener('click', exportAllData);
+
+function exportData() {
+    if (invoices.length === 0) {
+        alert('No invoices to export!');
+        return;
+    }
+    
+    exportToExcel(invoices, 'Current_Invoices.xlsx');
+}
+
+function exportAllData() {
+    const allData = [...invoices, ...cutoffInvoices];
+    if (allData.length === 0) {
+        alert('No data to export!');
+        return;
+    }
+    
+    exportToExcel(allData, 'All_Invoices.xlsx');
+}
+
 function exportToExcel(data, filename) {
     const excelData = data.map(invoice => ({
         'SL.No': invoice.serialNumber,
@@ -213,16 +243,16 @@ fileInput.addEventListener('change', function(e) {
                 // Convert Excel data to our format
                 data = data.map(item => ({
                     id: Date.now() + Math.floor(Math.random() * 1000),
-                    invoiceDate: item['Invoice Date'] || new Date().toISOString().split('T')[0],
-                    serialNumber: item['Serial Number'] || '',
-                    invoiceNumber: item['Invoice Number'] || '',
-                    customerName: item['Customer Name'] || '',
+                    serialNumber: item['SL.No'] || '',
+                    invoiceNumber: item['Invoice No.'] || '',
+                    invoiceDate: item['Date'] || new Date().toISOString().split('T')[0],
+                    customerName: item['Customer'] || '',
                     customerGSTIN: item['Customer GSTIN'] || '',
                     actualValue: item['Actual Value'] || '',
-                    cgstValue: item['CGST 9% Value'] || '',
-                    sgstValue: item['SGST 9% Value'] || '',
-                    totalGSTValue: item['Total GST Value'] || '',
-                    totalInvoiceValue: item['Total Invoice Value'] || '',
+                    cgstValue: item['CGST 9%'] || '',
+                    sgstValue: item['SGST 9%'] || '',
+                    totalGSTValue: item['Total GST'] || '',
+                    totalInvoiceValue: item['Total Inv.Value'] || '',
                     status: item['Status'] || 'active'
                 }));
             }
