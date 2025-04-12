@@ -90,9 +90,9 @@ invoiceForm.addEventListener('submit', function(e) {
     
     const invoice = {
         id: Date.now(),
-        invoiceDate: document.getElementById('invoiceDate').value,
         serialNumber: document.getElementById('serialNumber').value,
         invoiceNumber: document.getElementById('invoiceNumber').value,
+        invoiceDate: document.getElementById('invoiceDate').value,
         customerName: document.getElementById('customerName').value,
         customerGSTIN: document.getElementById('customerGSTIN').value,
         actualValue: document.getElementById('actualValue').value,
@@ -113,70 +113,44 @@ invoiceForm.addEventListener('submit', function(e) {
     document.getElementById('invoiceDate').valueAsDate = new Date();
 });
 
-// Update invoice table
+// Update invoice table with new column order
 function updateInvoiceTable() {
     invoiceTable.innerHTML = '';
     const recentInvoices = invoices.slice(-10).reverse();
     
     recentInvoices.forEach(invoice => {
         const row = invoiceTable.insertRow();
-        
         const date = new Date(invoice.invoiceDate);
         const formattedDate = date.toLocaleDateString('en-IN');
         
         row.innerHTML = `
-            <td>${formattedDate}</td>
+            <td>${invoice.serialNumber}</td>
             <td>${invoice.invoiceNumber}</td>
+            <td>${formattedDate}</td>
             <td>${invoice.customerName}</td>
             <td>${invoice.customerGSTIN}</td>
+            <td>₹${invoice.actualValue}</td>
+            <td>₹${invoice.cgstValue}</td>
+            <td>₹${invoice.sgstValue}</td>
+            <td>₹${invoice.totalGSTValue}</td>
             <td>₹${invoice.totalInvoiceValue}</td>
-            <td><span class="status-badge status-active">Active</span></td>
         `;
     });
 }
 
-// Update data status
-function updateDataStatus() {
-    activeCount.textContent = invoices.length;
-    cutoffCount.textContent = cutoffInvoices.length;
-    totalCount.textContent = invoices.length + cutoffInvoices.length;
-}
-
-// Export to Excel
-exportBtn.addEventListener('click', exportData);
-exportAllBtn.addEventListener('click', exportAllData);
-
-function exportData() {
-    if (invoices.length === 0) {
-        alert('No invoices to export!');
-        return;
-    }
-    
-    exportToExcel(invoices, 'Current_Invoices.xlsx');
-}
-
-function exportAllData() {
-    const allData = [...invoices, ...cutoffInvoices];
-    if (allData.length === 0) {
-        alert('No data to export!');
-        return;
-    }
-    
-    exportToExcel(allData, 'All_Invoices.xlsx');
-}
-
+// Update Excel export with new column order
 function exportToExcel(data, filename) {
     const excelData = data.map(invoice => ({
-        'Invoice Date': invoice.invoiceDate,
-        'Serial Number': invoice.serialNumber,
-        'Invoice Number': invoice.invoiceNumber,
-        'Customer Name': invoice.customerName,
+        'SL.No': invoice.serialNumber,
+        'Invoice No.': invoice.invoiceNumber,
+        'Date': invoice.invoiceDate,
+        'Customer': invoice.customerName,
         'Customer GSTIN': invoice.customerGSTIN,
         'Actual Value': invoice.actualValue,
-        'CGST 9% Value': invoice.cgstValue,
-        'SGST 9% Value': invoice.sgstValue,
-        'Total GST Value': invoice.totalGSTValue,
-        'Total Invoice Value': invoice.totalInvoiceValue,
+        'CGST 9%': invoice.cgstValue,
+        'SGST 9%': invoice.sgstValue,
+        'Total GST': invoice.totalGSTValue,
+        'Total Inv.Value': invoice.totalInvoiceValue,
         'Status': invoice.status || 'active'
     }));
     

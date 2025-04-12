@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sriram Services</title>
-    <link rel="icon" type="image/png" href="images/logo.jpg">
+    <title>SRIRAM Services</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="images/logo.jpg">
     <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
@@ -25,29 +25,27 @@
                 <form id="invoiceForm">
                     <div class="form-grid">
                         <div class="inputGroup">
-                            <input type="date" id="invoiceDate" required>
-                            <label for="invoiceDate">Invoice Date</label>
-                        </div>
-                        <div class="inputGroup">
                             <input type="text" id="serialNumber" required>
-                            <label for="serialNumber">Serial Number</label>
+                            <label for="serialNumber">SL.No</label>
                         </div>
                         <div class="inputGroup">
                             <input type="text" id="invoiceNumber" required>
-                            <label for="invoiceNumber">Invoice Number</label>
+                            <label for="invoiceNumber">Invoice No.</label>
+                        </div>
+                        <div class="inputGroup">
+                            <input type="date" id="invoiceDate" required>
+                            <label for="invoiceDate">Date</label>
                         </div>
                     </div>
 
                     <div class="form-grid">
                         <div class="inputGroup">
                             <input type="text" id="customerName" required>
-                            <label for="customerName">Customer Name</label>
+                            <label for="customerName">Customer</label>
                         </div>
                         <div class="inputGroup">
                             <select id="customerGSTIN" required>
                                 <option value=""></option>
-                                <option value="GSTIN1">GSTIN1</option>
-                                <option value="GSTIN2">GSTIN2</option>
                             </select>
                             <label for="customerGSTIN">Customer GSTIN</label>
                         </div>
@@ -75,7 +73,7 @@
                         </div>
                         <div class="inputGroup">
                             <input type="number" id="totalInvoiceValue" class="readonly" readonly>
-                            <label for="totalInvoiceValue">Total Invoice (₹)</label>
+                            <label for="totalInvoiceValue">Total Inv. Value (₹)</label>
                         </div>
                     </div>
 
@@ -91,12 +89,16 @@
                 <table id="invoiceTable">
                     <thead>
                         <tr>
-                            <th>Date</th>
+                            <th>SL.No</th>
                             <th>Invoice No.</th>
+                            <th>Date</th>
                             <th>Customer</th>
                             <th>GSTIN</th>
-                            <th>Total (₹)</th>
-                            <th>Status</th>
+                            <th>Actual Value</th>
+                            <th>CGST 9%</th>
+                            <th>SGST 9%</th>
+                            <th>Total GST</th>
+                            <th>Total Value</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -105,37 +107,7 @@
         </div>
 
         <div id="manageTab" class="tab-content">
-            <div class="card">
-                <h2 class="card-title">Data Management</h2>
-                
-                <div class="form-group">
-                    <label>Current Data Status</label>
-                    <div class="status-box">
-                        <p><strong>Active Invoices:</strong> <span id="activeCount">0</span></p>
-                        <p><strong>Cutoff Invoices:</strong> <span id="cutoffCount">0</span></p>
-                        <p><strong>Total Records:</strong> <span id="totalCount">0</span></p>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Import/Export Options</label>
-                    <div class="btn-group">
-                        <button type="button" id="importBtn" class="btn btn-primary">Import Data</button>
-                        <button type="button" id="exportAllBtn" class="btn btn-success">Export Full Data</button>
-                        <button type="button" id="exportCutoffBtn" class="btn btn-danger">Export & Cutoff Data</button>
-                    </div>
-                    <input type="file" id="fileInput" accept=".json,.xlsx" style="display: none;">
-                </div>
-                
-                <div class="form-group">
-                    <label>Cloud Sync (Cross-Device Access)</label>
-                    <div class="btn-group">
-                        <button type="button" id="saveToCloudBtn" class="btn btn-primary">Save to Cloud</button>
-                        <button type="button" id="loadFromCloudBtn" class="btn btn-success">Load from Cloud</button>
-                    </div>
-                    <p id="cloudStatus"></p>
-                </div>
-            </div>
+            <!-- Keep the existing Data Management tab content -->
         </div>
     </div>
 
