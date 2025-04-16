@@ -33,15 +33,27 @@ function init() {
     updateGSTINDropdown();
     updateInvoiceTable();
     updateDataStatus();
+    setupTabSwitching();
+}
+
+// Set up tab switching functionality
+function setupTabSwitching() {
+    const tabs = document.querySelectorAll('.tab');
     
-    // Tab switching
-    window.switchTab = function(tab) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        
-        document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
-        document.getElementById(`${tab}Tab`).classList.add('active');
-    };
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs and content
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Show corresponding content
+            const tabName = this.getAttribute('data-tab');
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+        });
+    });
 }
 
 // Update GSTIN dropdown
@@ -298,7 +310,7 @@ fileInput.addEventListener('change', function(e) {
     fileInput.value = '';
 });
 
-// Cloud Sync Configuration (Replace with your JSONBin.io credentials)
+// Cloud Sync Configuration
 const BIN_ID = "67f7ae9c8561e97a50fca560";
 const API_KEY = "$2a$10$yVUHnA02tZlhxv.f.q4L5.Y4NwvvMCwGu6QDr4a3fv9ptv/LQOJti";
 
