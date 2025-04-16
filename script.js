@@ -28,32 +28,55 @@ const cloudStatus = document.getElementById('cloudStatus');
 // Set default invoice date to today
 document.getElementById('invoiceDate').valueAsDate = new Date();
 
+// Tab switching function
+function switchTab(tabName) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Deactivate all tabs
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Activate selected tab and content
+    document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
+    document.getElementById(`${tabName}Tab`).classList.add('active');
+}
+
 // Initialize the page
 function init() {
     updateGSTINDropdown();
     updateInvoiceTable();
     updateDataStatus();
-    setupTabSwitching();
+    
+    // Set up event listeners
+    setupEventListeners();
 }
 
-// Set up tab switching functionality
-function setupTabSwitching() {
-    const tabs = document.querySelectorAll('.tab');
+function setupEventListeners() {
+    // Calculate GST values when actual value changes
+    actualValue.addEventListener('input', calculateGST);
     
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            // Remove active class from all tabs and content
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
-            // Add active class to clicked tab
-            this.classList.add('active');
-            
-            // Show corresponding content
-            const tabName = this.getAttribute('data-tab');
-            document.getElementById(`${tabName}Tab`).classList.add('active');
-        });
-    });
+    // Add new GSTIN
+    addGSTIN.addEventListener('click', addNewGSTIN);
+    
+    // Save invoice
+    invoiceForm.addEventListener('submit', saveInvoice);
+    
+    // Export buttons
+    exportBtn.addEventListener('click', exportData);
+    exportAllBtn.addEventListener('click', exportAllData);
+    exportCutoffBtn.addEventListener('click', exportAndCutoff);
+    
+    // Import data
+    importBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', importData);
+    
+    // Cloud sync
+    saveToCloudBtn.addEventListener('click', saveToCloud);
+    loadFromCloudBtn.addEventListener('click', loadFromCloud);
 }
 
 // Update GSTIN dropdown
@@ -396,4 +419,6 @@ loadFromCloudBtn.addEventListener('click', async function() {
 });
 
 // Initialize the page
-init();
+document.addEventListener('DOMContentLoaded', function() {
+    init();
+});
