@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Invoice Management System for Sriram Services">
-    <title>Sriram Services - Invoice Management System</title>
+    <title>Sriram Services - Invoice Management</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="images/logo.jpg">
     <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
@@ -15,104 +14,137 @@
             <h1>Invoice Management System</h1>
         </header>
 
-        <nav class="tabs" role="navigation">
-            <div class="tab active" data-tab="add" aria-current="page">Add Invoice</div>
+        <div class="tabs">
+            <div class="tab active" data-tab="add">Add Invoice</div>
             <div class="tab" data-tab="manage">Data Management</div>
-        </nav>
+        </div>
 
-        <main>
-            <section id="addTab" class="tab-content active">
-                <div class="card">
-                    <h2 class="card-title">New Invoice</h2>
-                    <form id="invoiceForm">
-                        <div class="form-grid">
-                            <div class="inputGroup">
-                                <input type="text" id="serialNumber" required autocomplete="off" placeholder=" ">
-                                <label for="serialNumber">SL.No</label>
-                            </div>
-                            <div class="inputGroup">
-                                <input type="text" id="invoiceNumber" required autocomplete="off" placeholder=" ">
-                                <label for="invoiceNumber">Invoice No.</label>
-                            </div>
-                            <div class="inputGroup">
-                                <input type="date" id="invoiceDate" required autocomplete="off">
-                                <label for="invoiceDate">Date</label>
-                            </div>
+        <div id="addTab" class="tab-content active">
+            <div class="card">
+                <h2 class="card-title">New Invoice</h2>
+                <form id="invoiceForm">
+                    <div class="form-grid">
+                        <div class="inputGroup">
+                            <input type="text" id="serialNumber" required autocomplete="off" placeholder=" ">
+                            <label for="serialNumber">SL.No</label>
                         </div>
+                        <div class="inputGroup">
+                            <input type="text" id="invoiceNumber" required autocomplete="off" placeholder=" ">
+                            <label for="invoiceNumber">Invoice No.</label>
+                        </div>
+                        <div class="inputGroup">
+                            <input type="date" id="invoiceDate" required autocomplete="off">
+                            <label for="invoiceDate">Date</label>
+                        </div>
+                    </div>
 
-                        <div class="form-grid">
-                            <div class="inputGroup">
-                                <input type="text" id="customerName" required autocomplete="name" placeholder=" ">
-                                <label for="customerName">Customer</label>
-                            </div>
-                            <div class="inputGroup">
-                                <select id="customerGSTIN" required>
-                                    <option value="">Select GSTIN</option>
-                                </select>
-                                <label for="customerGSTIN">Customer GSTIN</label>
-                            </div>
-                            <div class="form-group">
-                                <button type="button" id="addGSTIN" class="btn btn-primary" aria-label="Add new GSTIN">+ Add New GSTIN</button>
-                            </div>
+                    <div class="form-grid">
+                        <div class="inputGroup">
+                            <input type="text" id="customerName" required autocomplete="name" placeholder=" ">
+                            <label for="customerName">Customer</label>
                         </div>
+                        <div class="inputGroup">
+                            <select id="customerGSTIN" required>
+                                <option value="">Select GSTIN</option>
+                            </select>
+                            <label for="customerGSTIN">Customer GSTIN</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="addGSTIN" class="btn btn-primary" aria-label="Add new GSTIN">+ Add New GSTIN</button>
+                        </div>
+                    </div>
 
-                        <div class="form-grid">
-                            <div class="inputGroup">
-                                <input type="number" id="actualValue" step="0.01" required autocomplete="off" placeholder=" ">
-                                <label for="actualValue">Actual Value (₹)</label>
-                            </div>
-                            <div class="inputGroup">
-                                <input type="number" id="cgstValue" class="readonly" readonly tabindex="-1">
-                                <label for="cgstValue">CGST 9% (₹)</label>
-                            </div>
-                            <div class="inputGroup">
-                                <input type="number" id="sgstValue" class="readonly" readonly tabindex="-1">
-                                <label for="sgstValue">SGST 9% (₹)</label>
-                            </div>
-                            <div class="inputGroup">
-                                <input type="number" id="totalGSTValue" class="readonly" readonly tabindex="-1">
-                                <label for="totalGSTValue">Total GST (₹)</label>
-                            </div>
-                            <div class="inputGroup">
-                                <input type="number" id="totalInvoiceValue" class="readonly" readonly tabindex="-1">
-                                <label for="totalInvoiceValue">Total Inv. Value (₹)</label>
-                            </div>
+                    <div class="form-grid">
+                        <div class="inputGroup">
+                            <input type="number" id="actualValue" step="0.01" required autocomplete="off" placeholder=" ">
+                            <label for="actualValue">Actual Value (₹)</label>
                         </div>
+                        <div class="inputGroup">
+                            <input type="number" id="cgstValue" class="readonly" readonly tabindex="-1">
+                            <label for="cgstValue">CGST 9% (₹)</label>
+                        </div>
+                        <div class="inputGroup">
+                            <input type="number" id="sgstValue" class="readonly" readonly tabindex="-1">
+                            <label for="sgstValue">SGST 9% (₹)</label>
+                        </div>
+                        <div class="inputGroup">
+                            <input type="number" id="totalGSTValue" class="readonly" readonly tabindex="-1">
+                            <label for="totalGSTValue">Total GST (₹)</label>
+                        </div>
+                        <div class="inputGroup">
+                            <input type="number" id="totalInvoiceValue" class="readonly" readonly tabindex="-1">
+                            <label for="totalInvoiceValue">Total Inv. Value (₹)</label>
+                        </div>
+                    </div>
 
-                        <div class="btn-group">
-                            <button type="submit" class="btn btn-primary">Save Invoice</button>
-                            <button type="button" id="exportBtn" class="btn btn-success">Export to Excel</button>
-                        </div>
-                    </form>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">Save Invoice</button>
+                        <button type="button" id="exportBtn" class="btn btn-success">Export to Excel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">Recent Invoices</h2>
+                <table id="invoiceTable" aria-describedby="table-summary">
+                    <caption id="table-summary" class="sr-only">List of recent invoices</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">SL.No</th>
+                            <th scope="col">Invoice No.</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">GSTIN</th>
+                            <th scope="col">Actual Value</th>
+                            <th scope="col">CGST 9%</th>
+                            <th scope="col">SGST 9%</th>
+                            <th scope="col">Total GST</th>
+                            <th scope="col">Total Value</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="manageTab" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">Data Management</h2>
+                
+                <div class="status-box">
+                    <div>Active Invoices: <span id="activeCount">0</span></div>
+                    <div>Cutoff Invoices: <span id="cutoffCount">0</span></div>
+                    <div>Total Invoices: <span id="totalCount">0</span></div>
                 </div>
 
-                <div class="card">
-                    <h2 class="card-title">Recent Invoices</h2>
-                    <table id="invoiceTable" aria-describedby="table-summary">
-                        <caption id="table-summary" class="sr-only">List of recent invoices</caption>
-                        <thead>
-                            <tr>
-                                <th scope="col">SL.No</th>
-                                <th scope="col">Invoice No.</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Customer</th>
-                                <th scope="col">GSTIN</th>
-                                <th scope="col">Actual Value</th>
-                                <th scope="col">CGST 9%</th>
-                                <th scope="col">SGST 9%</th>
-                                <th scope="col">Total GST</th>
-                                <th scope="col">Total Value</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                <div class="btn-group">
+                    <button type="button" id="exportAllBtn" class="btn btn-primary">
+                        Export All Data
+                    </button>
+                    <button type="button" id="exportCutoffBtn" class="btn btn-danger">
+                        Export & Cutoff Data
+                    </button>
                 </div>
-            </section>
 
-            <section id="manageTab" class="tab-content">
-                <!-- Keep the existing Data Management tab content -->
-            </section>
-        </main>
+                <div class="btn-group">
+                    <button type="button" id="importBtn" class="btn btn-primary">
+                        Import Data
+                    </button>
+                    <input type="file" id="fileInput" accept=".xlsx,.json" style="display: none;">
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" id="saveToCloudBtn" class="btn btn-success">
+                        Save to Cloud
+                    </button>
+                    <button type="button" id="loadFromCloudBtn" class="btn btn-primary">
+                        Load from Cloud
+                    </button>
+                </div>
+
+                <div id="cloudStatus"></div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>

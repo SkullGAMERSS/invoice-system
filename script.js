@@ -64,6 +64,15 @@ function setDefaultDate() {
 }
 
 // Tab switching function
+function setupTabSwitching() {
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabName = this.getAttribute('data-tab');
+            switchTab(tabName);
+        });
+    });
+}
+
 function switchTab(tabName) {
     // Hide all tab contents
     document.querySelectorAll('.tab-content').forEach(content => {
@@ -76,11 +85,8 @@ function switchTab(tabName) {
     });
     
     // Activate selected tab and content
-    const tabElement = document.querySelector(`.tab[data-tab="${tabName}"]`);
-    const contentElement = document.getElementById(`${tabName}Tab`);
-    
-    if (tabElement) tabElement.classList.add('active');
-    if (contentElement) contentElement.classList.add('active');
+    document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+    document.getElementById(`${tabName}Tab`).classList.add('active');
 }
 
 // Initialize the page
@@ -89,6 +95,7 @@ function init() {
     updateGSTINDropdown();
     updateInvoiceTable();
     updateDataStatus();
+    setupTabSwitching();
     setupEventListeners();
 }
 
@@ -461,14 +468,12 @@ async function loadFromCloud() {
 
 // Setup event listeners
 function setupEventListeners() {
-    if (!elements.invoiceForm) return;
-    
     // Calculate GST with debounce
-    elements.actualValue.addEventListener('input', debounce(calculateGST, 300));
+    elements.actualValue?.addEventListener('input', debounce(calculateGST, 300));
     
     // Form events
-    elements.addGSTIN.addEventListener('click', addNewGSTIN);
-    elements.invoiceForm.addEventListener('submit', saveInvoice);
+    elements.addGSTIN?.addEventListener('click', addNewGSTIN);
+    elements.invoiceForm?.addEventListener('submit', saveInvoice);
     
     // Export buttons
     elements.exportBtn?.addEventListener('click', exportData);
