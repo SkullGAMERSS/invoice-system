@@ -351,3 +351,36 @@ tr:hover {
         -webkit-overflow-scrolling: touch;
     }
 }
+
+/* Add to your existing CSS */
+.btn {
+    text-decoration: none;
+}
+
+.status-box {
+    background: var(--gray-100);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+}
+
+.status-box div {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.status-box div:last-child {
+    margin-bottom: 0;
+}
+
+#cloudStatus {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    background: var(--gray-100);
+    font-size: 0.9rem;
+}
+
+#fileInput {
+    display: none;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sriram Services - Data Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="images/logo.jpg">
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Data Management System</h1>
+            <a href="index.html" class="btn btn-primary">Back to Invoices</a>
+        </header>
+
+        <div class="card">
+            <h2 class="card-title">Data Management</h2>
+            
+            <div class="status-box">
+                <div>Active Invoices: <span id="activeCount">0</span></div>
+                <div>Cutoff Invoices: <span id="cutoffCount">0</span></div>
+                <div>Total Invoices: <span id="totalCount">0</span></div>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" id="exportAllBtn" class="btn btn-primary">
+                    Export All Data
+                </button>
+                <button type="button" id="exportCutoffBtn" class="btn btn-danger">
+                    Export & Cutoff Data
+                </button>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" id="importBtn" class="btn btn-primary">
+                    Import Data
+                </button>
+                <input type="file" id="fileInput" accept=".xlsx,.json" style="display: none;">
+            </div>
+
+            <div class="btn-group">
+                <button type="button" id="saveToCloudBtn" class="btn btn-success">
+                    Save to Cloud
+                </button>
+                <button type="button" id="loadFromCloudBtn" class="btn btn-primary">
+                    Load from Cloud
+                </button>
+            </div>
+
+            <div id="cloudStatus"></div>
+        </div>
+    </div>
+
+    <script src="data-management.js"></script>
+</body>
+</html>
