@@ -176,11 +176,11 @@ function saveInvoice(e) {
         invoiceDate: document.getElementById('invoiceDate').value,
         customerName: document.getElementById('customerName').value,
         customerGSTIN: document.getElementById('customerGSTIN').value,
-        actualValue: document.getElementById('actualValue').value,
-        cgstValue: document.getElementById('cgstValue').value,
-        sgstValue: document.getElementById('sgstValue').value,
-        totalGSTValue: document.getElementById('totalGSTValue').value,
-        totalInvoiceValue: document.getElementById('totalInvoiceValue').value,
+        actualValue: parseFloat(document.getElementById('actualValue').value) || 0,
+        cgstValue: parseFloat(document.getElementById('cgstValue').value) || 0,
+        sgstValue: parseFloat(document.getElementById('sgstValue').value) || 0,
+        totalGSTValue: parseFloat(document.getElementById('totalGSTValue').value) || 0,
+        totalInvoiceValue: parseFloat(document.getElementById('totalInvoiceValue').value) || 0,
         status: 'active'
     };
     
@@ -359,11 +359,11 @@ function readFile(file) {
                         invoiceDate: item['Date'] || new Date().toISOString().split('T')[0],
                         customerName: item['Customer'] || '',
                         customerGSTIN: item['Customer GSTIN'] || '',
-                        actualValue: item['Actual Value'] || '0',
-                        cgstValue: item['CGST 9%'] || '0',
-                        sgstValue: item['SGST 9%'] || '0',
-                        totalGSTValue: item['Total GST'] || '0',
-                        totalInvoiceValue: item['Total Inv.Value'] || '0',
+                        actualValue: parseFloat(item['Actual Value']) || 0, // Parse as number
+                        cgstValue: parseFloat(item['CGST 9%']) || 0,       // Parse as number
+                        sgstValue: parseFloat(item['SGST 9%']) || 0,       // Parse as number
+                        totalGSTValue: parseFloat(item['Total GST']) || 0, // Parse as number
+                        totalInvoiceValue: parseFloat(item['Total Inv.Value']) || 0, // Parse as number
                         status: item['Status'] || 'active'
                     }));
                 }
