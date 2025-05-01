@@ -247,6 +247,21 @@ function exportToExcel(data, filename) {
     }));
     
     const worksheet = XLSX.utils.json_to_sheet(excelData);
+
+    // Explicitly set cell types for numeric columns to 'n' (number)
+    const numericColumns = ['Actual Value', 'CGST 9%', 'SGST 9%', 'Total GST', 'Total Inv.Value'];
+    Object.keys(worksheet).forEach(cell => {
+        if (cell[0] === '!') return; // Skip special keys
+        const cellValue = worksheet[cell].v;
+        const col = cell.match(/[A-Z]+/)[0];
+        const headerCell = col + '1';
+        if (numericColumns.includes(worksheet[headerCell].v)) {
+            if (typeof cellValue === 'number') {
+                worksheet[cell].t = 'n'; // Set cell type to number
+            }
+        }
+    });
+
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Invoices');
     XLSX.writeFile(workbook, filename);
