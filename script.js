@@ -238,11 +238,11 @@ function exportToExcel(data, filename) {
         'Date': invoice.invoiceDate,
         'Customer': invoice.customerName,
         'Customer GSTIN': invoice.customerGSTIN,
-        'Actual Value': invoice.actualValue,
-        'CGST 9%': invoice.cgstValue,
-        'SGST 9%': invoice.sgstValue,
-        'Total GST': invoice.totalGSTValue,
-        'Total Inv.Value': invoice.totalInvoiceValue,
+        'Actual Value': Number(invoice.actualValue), // Ensure it's a number
+        'CGST 9%': Number(invoice.cgstValue),       // Ensure it's a number
+        'SGST 9%': Number(invoice.sgstValue),       // Ensure it's a number
+        'Total GST': Number(invoice.totalGSTValue), // Ensure it's a number
+        'Total Inv.Value': Number(invoice.totalInvoiceValue), // Ensure it's a number
         'Status': invoice.status || 'active'
     }));
     
