@@ -129,6 +129,23 @@ h1 {
     color: var(--primary);
 }
 
+/* Fix floating label for select when option is selected */
+.inputGroup select:focus,
+.inputGroup select:valid {
+    border-color: var(--primary);
+    box-shadow: var(--focus-ring);
+}
+
+.inputGroup select:focus ~ label,
+.inputGroup select:valid ~ label {
+    transform: translateY(-50%) scale(0.85);
+    margin: 0;
+    margin-left: 1em;
+    padding: 0 0.4em;
+    background-color: white;
+    color: var(--primary);
+}
+
 .readonly {
     background-color: var(--gray-100);
     cursor: not-allowed;
