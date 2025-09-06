@@ -114,7 +114,7 @@ function debounce(func, delay) {
  function isValidGSTIN(gstin) {
     if (!gstin) return false;
     // Simple format check - real validation would be more complex
-    if (gstin === "CANCELLED") {
+    if (gstin.toUpperCase() === "CANCELLED") {
         return "CANCELLED";
     }
     return /^[0-9A-Z]{15}$/.test(gstin);
