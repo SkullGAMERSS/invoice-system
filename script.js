@@ -111,11 +111,11 @@ function debounce(func, delay) {
 }
 
 // Basic GSTIN validation
-function isValidGSTIN(gstin) {
+/* function isValidGSTIN(gstin) {
     if (!gstin) return false;
     // Simple format check - real validation would be more complex
     return /^[0-9A-Z]{15}$/.test(gstin);
-}
+} */
 
 // Calculate GST values
 function calculateGST() {
