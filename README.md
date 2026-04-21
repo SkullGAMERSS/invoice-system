@@ -59,5 +59,5 @@ Check out the live version of the application hosted on GitHub Pages:
 ---
 
 <p align="center">
-  Developed by <a href="https://github.com/skullgamerss">skullgamerss</a> | <a href="https://github.com/vishwakshenansrinivasan">Vishwakshenan Srinivasan</a>
+  Developed by <a href="https://github.com/vishwakshenansrinivasan">Vishwakshenan Srinivasan</a>
 </p>
