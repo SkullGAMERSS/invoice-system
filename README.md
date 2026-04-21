@@ -2,7 +2,7 @@
   <!-- You can add a logo here if you have one -->
   <!-- <img src="./images/logo.jpg" alt="Logo" width="150" /> -->
 
-  # 🧾 Sriram Services Invoice Management System
+  # 🧾 Invoice Management System
   
   <p align="center">
     A robust, web-based solution for streamlined invoice generation and data management.
@@ -37,7 +37,7 @@
 
 Check out the live version of the application hosted on GitHub Pages:
 
-🔗 **[Sriram Services Invoice System - Live Demo](https://skullgamerss.github.io/invoice-system/)**
+🔗 **[ Invoice System - Live Demo](https://skullgamerss.github.io/invoice-system/)**
 
 ## 📂 Installation & Usage
 
